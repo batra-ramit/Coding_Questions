@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "excel4node": "^1.7.2",
+    "minimist": "^1.2.5"
+  }
+}
