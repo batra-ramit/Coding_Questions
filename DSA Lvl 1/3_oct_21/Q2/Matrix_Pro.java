@@ -19,8 +19,13 @@ public class Matrix_Pro {
       for (int j = 0; j < m2; j++) a2[i][j] = s.nextInt();
     }
     int sum;
+    int flag = 0;
     int pro[][] = new int[n1][m2];
     for (int i = 0; i < n1; i++) {
+      if (n2 != m1) {
+        flag = -1;
+        break;
+      }
       for (int j = 0; j < m2; j++) {
         sum = 0;
         for (int k = 0; k < n2; k++) sum = sum + a1[i][k] * a2[k][j];
@@ -29,9 +34,11 @@ public class Matrix_Pro {
       }
     }
 
-    for (int i = 0; i < n1; i++) {
-      for (int j = 0; j < m2; j++) System.out.print(pro[i][j] + " ");
-      System.out.println();
+    if (flag == -1) System.out.println("Invalid input"); else {
+      for (int i = 0; i < n1; i++) {
+        for (int j = 0; j < m2; j++) System.out.print(pro[i][j] + " ");
+        System.out.println();
+      }
     }
   }
 }
