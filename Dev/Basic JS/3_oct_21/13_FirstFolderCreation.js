@@ -11,7 +11,7 @@ let args = minimist(process.argv);
 
 let teamsJSON = fs.readFileSync(args.source, "utf-8");
 let teams = JSON.parse(teamsJSON);
-
+fs.mkdirSync(args.dest);
 for(let i = 0; i < teams.length; i++){
     let folderName = path.join(args.dest, teams[i].team);
     fs.mkdirSync(folderName);

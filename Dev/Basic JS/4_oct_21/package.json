@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "init": "^0.1.2",
+    "minimist": "^1.2.5",
+    "pdf-lib": "^1.16.0"
+  }
+}
