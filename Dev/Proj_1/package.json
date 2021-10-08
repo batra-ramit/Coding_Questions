@@ -1,0 +1,19 @@
+{
+  "name": "proj_1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "1_CricInfoEctractort.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.22.0",
+    "excel4node": "^1.7.2",
+    "jsdom": "^17.0.0",
+    "minimist": "^1.2.5",
+    "pdf-lib": "^1.16.0"
+  }
+}
