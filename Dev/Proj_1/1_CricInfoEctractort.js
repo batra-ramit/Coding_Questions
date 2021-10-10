@@ -48,15 +48,15 @@ AxiosResponse.then(function (response) {
 
     let TeamScores = matchdiv.querySelectorAll("div.score-detail > span.score");
     if (TeamScores.length == 2) {
-   
-      t1_Score = TeamScores[0].textContent;
-      t2_Score = TeamScores[1].textContent;
+      MatchJS0.t1_Score = TeamScores[0].textContent;
+      MatchJS0.t2_Score = TeamScores[1].textContent;
+      
     } else if (TeamScores.length == 1) {
-      t1_Score = TeamScores[0].textContent;
-      t2_Score = "";
+      MatchJS0.t1_Score = TeamScores[0].textContent;
+      MatchJS0.t2_Score = "";
     } else {
-      t1_Score = "";
-      t2_Score = "";
+      MatchJS0.t1_Score = "";
+      MatchJS0.t2_Score = "";
     }
 
     let MatchResult = matchdiv.querySelector("div.status-text > span");
@@ -64,7 +64,7 @@ AxiosResponse.then(function (response) {
 
     MatchArr.push(MatchJS0);
   }
-    console.log(MatchArr);
+  
   let json = JSON.stringify(MatchArr);
   fs.writeFileSync(args.dest, json, "utf-8");
 });
