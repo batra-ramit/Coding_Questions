@@ -67,4 +67,44 @@ AxiosResponse.then(function (response) {
   
   let json = JSON.stringify(MatchArr);
   fs.writeFileSync(args.dest, json, "utf-8");
+  
+  let Team = [];
+  
+  for (let i = 0; i < MatchArr.length; i++){
+    CreateTeams(Team, MatchArr[i]);
+  }
+  console.log(Team);
+  
 });
+
+function CreateTeams(teams, match) {
+  let t1idx = -1;
+    for (let i = 0; i < teams.length; i++) {
+        if (teams[i].name == match.t1) {
+            t1idx = i;
+            break;
+        }
+    }
+
+    if (t1idx == -1) {
+        teams.push({
+            name: match.t1,
+            matches: []
+        });
+    }
+
+    let t2idx = -1;
+    for (let i = 0; i < teams.length; i++) {
+        if (teams[i].name == match.t2) {
+            t2idx = i;
+            break;
+        }
+    }
+
+    if (t2idx == -1) {
+        teams.push({
+            name: match.t2,
+            matches: []
+        });
+    }
+}
