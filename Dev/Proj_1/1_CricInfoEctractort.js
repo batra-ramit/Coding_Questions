@@ -23,9 +23,12 @@ let pdf = require("pdf-lib");
 let args = minimist(process.argv);
 
 let AxiosResponse = axios.get(args.source);
+
 AxiosResponse.then(function (response) {
   let html = response.data;
+
   let dom = new jsdom.JSDOM(html);
+
   let document = dom.window.document;
 
   let MatchArr = [];
@@ -50,7 +53,6 @@ AxiosResponse.then(function (response) {
     if (TeamScores.length == 2) {
       MatchJS0.t1_Score = TeamScores[0].textContent;
       MatchJS0.t2_Score = TeamScores[1].textContent;
-      
     } else if (TeamScores.length == 1) {
       MatchJS0.t1_Score = TeamScores[0].textContent;
       MatchJS0.t2_Score = "";
@@ -64,47 +66,91 @@ AxiosResponse.then(function (response) {
 
     MatchArr.push(MatchJS0);
   }
-  
+
   let json = JSON.stringify(MatchArr);
-  fs.writeFileSync(args.dest, json, "utf-8");
-  
+
   let Team = [];
-  
-  for (let i = 0; i < MatchArr.length; i++){
-    CreateTeams(Team, MatchArr[i]);
+
+  for (let i = 0; i < MatchArr.length; i++) {
+    CreateTeams(Team, MatchArr[i].t1);
+    CreateTeams(Team, MatchArr[i].t2);
   }
-  console.log(Team);
-  
+
+  for (let i = 0; i < MatchArr.length; i++) {
+    AddMatchDetails(
+      Team,
+      MatchArr[i].t1,
+      MatchArr[i].t2,
+      MatchArr[i].t1_Score,
+      MatchArr[i].t2_Score,
+      MatchArr[i].Result
+    );
+    AddMatchDetails(
+      Team,
+      MatchArr[i].t2,
+      MatchArr[i].t1,
+      MatchArr[i].t1_Score,
+      MatchArr[i].t2_Score,
+      MatchArr[i].Result
+    );
+  }
+  let Finjson = JSON.stringify(Team);
+  fs.writeFileSync(args.dest, Finjson, "utf-8");
+
+  prepareExcel(args.excel, Team);
+  MakeFolderPdf(args.datafolder, Team);
 });
 
-function CreateTeams(teams, match) {
+function CreateTeams(team, teamname) {
   let t1idx = -1;
-    for (let i = 0; i < teams.length; i++) {
-        if (teams[i].name == match.t1) {
-            t1idx = i;
-            break;
-        }
+  for (let i = 0; i < team.length; i++) {
+    if (team[i].name == teamname) {
+      t1idx = i;
+      break;
     }
+  }
 
-    if (t1idx == -1) {
-        teams.push({
-            name: match.t1,
-            matches: []
-        });
-    }
+  if (t1idx == -1) {
+    team.push({
+      name: teamname,
+      matches: [],
+    });
+  }
+}
 
-    let t2idx = -1;
-    for (let i = 0; i < teams.length; i++) {
-        if (teams[i].name == match.t2) {
-            t2idx = i;
-            break;
-        }
+function AddMatchDetails(Team, t1name, t2name, t1score, t2score, result) {
+  for (let i = 0; i < Team.length; i++) {
+    if (Team[i].name == t1name) {
+      Team[i].matches.push({
+        vs: t2name,
+        selfscore: t1score,
+        oppscore: t2score,
+        result: result,
+      });
     }
+  }
+}
 
-    if (t2idx == -1) {
-        teams.push({
-            name: match.t2,
-            matches: []
-        });
+function prepareExcel(FileName, Team) {
+  let wb = new excel4node.Workbook();
+
+  for (let i = 0; i < Team.length; i++) {
+    let sheet = wb.addWorksheet(Team[i].name);
+    sheet.cell(1, 1).string("Vs");
+    sheet.cell(1, 2).string("Self Score");
+    sheet.cell(1, 3).string("Opp Score");
+    sheet.cell(1, 4).string("Result");
+    for (let j = 0; j < Team[i].matches.length; j++) {
+      sheet.cell(2 + j, 1).string(Team[i].matches[j].vs);
+      sheet.cell(2 + j, 2).string(Team[i].matches[j].selfscore);
+      sheet.cell(2 + j, 3).string(Team[i].matches[j].oppscore);
+      sheet.cell(2 + j, 4).string(Team[i].matches[j].result);
     }
+  }
+  wb.write(FileName);
+}
+
+function MakeFolderPdf(RootFolder, Team) {
+  
+  
 }
