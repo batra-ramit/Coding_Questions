@@ -19,6 +19,7 @@ let excel4node = require("excel4node");
 let path = require("path");
 let fs = require("fs");
 let pdf = require("pdf-lib");
+const { createPDFAcroField } = require("pdf-lib");
 
 let args = minimist(process.argv);
 
@@ -98,7 +99,7 @@ AxiosResponse.then(function (response) {
   fs.writeFileSync(args.dest, Finjson, "utf-8");
 
   prepareExcel(args.excel, Team);
-  MakeFolderPdf(args.datafolder, Team);
+  MakeFolderPdf(args.dataFolder, Team);
 });
 
 function CreateTeams(team, teamname) {
@@ -135,11 +136,17 @@ function prepareExcel(FileName, Team) {
   let wb = new excel4node.Workbook();
 
   for (let i = 0; i < Team.length; i++) {
+    var style = wb.createStyle({
+      font: {
+        color: "#FF0800",
+        size: 12,
+      },
+    });
     let sheet = wb.addWorksheet(Team[i].name);
-    sheet.cell(1, 1).string("Vs");
-    sheet.cell(1, 2).string("Self Score");
-    sheet.cell(1, 3).string("Opp Score");
-    sheet.cell(1, 4).string("Result");
+    sheet.cell(1, 1).string("Vs").style(style);
+    sheet.cell(1, 2).string("Self Score").style(style);
+    sheet.cell(1, 3).string("Opp Score").style(style);
+    sheet.cell(1, 4).string("Result").style(style);
     for (let j = 0; j < Team[i].matches.length; j++) {
       sheet.cell(2 + j, 1).string(Team[i].matches[j].vs);
       sheet.cell(2 + j, 2).string(Team[i].matches[j].selfscore);
@@ -151,6 +158,58 @@ function prepareExcel(FileName, Team) {
 }
 
 function MakeFolderPdf(RootFolder, Team) {
-  
-  
+  fs.mkdirSync(RootFolder);
+  for (let i = 0; i < Team.length; i++) {
+    let TeamFolder = path.join(RootFolder, Team[i].name);
+    fs.mkdirSync(TeamFolder);
+
+    for (let j = 0; j < Team[i].matches.length; j++) {
+      let match = Team[i].matches[j];
+      createPDFscorecard(TeamFolder, Team[i].name, match);
+    }
+  }
+}
+
+function createPDFscorecard(TeamFolder, TeamName, match) {
+  let PDFname = path.join(TeamFolder, match.vs);
+  let templatefile = fs.readFileSync("Template.pdf");
+  let pdfkapromise = pdf.PDFDocument.load(templatefile);
+  pdfkapromise.then(function (pdfdoc) {
+    let page = pdfdoc.getPage(0);
+
+    page.drawText(TeamName, {
+      x: 320,
+      y: 703,
+      size: 8,
+    });
+    page.drawText(match.vs, {
+      x: 320,
+      y: 688,
+      size: 8,
+    });
+    page.drawText(match.selfscore, {
+      x: 320,
+      y: 675,
+      size: 8,
+    });
+    page.drawText(match.oppscore, {
+      x: 320,
+      y: 661,
+      size: 8,
+    });
+    page.drawText(match.result, {
+      x: 320,
+      y: 646,
+      size: 8,
+    });
+    let changebytespromise = pdfdoc.save();
+
+    changebytespromise.then(function (changedBytes) {
+      if (fs.existsSync(PDFname + ".pdf") == true) {
+        fs.writeFileSync(PDFname + "1.pdf", changedBytes);
+      } else {
+        fs.writeFileSync(PDFname + ".pdf", changedBytes);
+      }
+    });
+  });
 }
