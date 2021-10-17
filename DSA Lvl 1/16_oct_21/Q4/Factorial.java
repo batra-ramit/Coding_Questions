@@ -14,7 +14,8 @@
         }
     
         public static int factorial(int n){
-            if(n==1)
+            //  IF TEST CASE IS 0 THEN OUTPUT WILL BE 1
+            if(n==0)
             return 1;
             return n*factorial(n-1);
         
