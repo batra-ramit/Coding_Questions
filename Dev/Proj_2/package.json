@@ -1,0 +1,24 @@
+{
+  "name": "automationscript_2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "AutomationScript.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/batra-ramit/Browser_Automation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/batra-ramit/Browser_Automation/issues"
+  },
+  "homepage": "https://github.com/batra-ramit/Browser_Automation#readme",
+  "dependencies": {
+    "minimist": "^1.2.5",
+    "puppeteer": "^10.4.0"
+  }
+}
