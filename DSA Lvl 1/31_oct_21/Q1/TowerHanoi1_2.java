@@ -2,7 +2,7 @@
     import java.io.*;
     import java.util.*;
     
-    public class TowerHanoi {
+    public class TowerHanoi1_2.java {
     
     
         public static void main(String[] args) throws Exception {
