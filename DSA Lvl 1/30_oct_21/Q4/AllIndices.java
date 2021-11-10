@@ -23,7 +23,7 @@
             return -1;
             
             
-            int assIndex=firstIndex(arr,idx-1,x);
+            int assIndex=AllIndex(arr,idx-1,x);
             
             if(arr[idx]==x)
             {System.out.println(idx);

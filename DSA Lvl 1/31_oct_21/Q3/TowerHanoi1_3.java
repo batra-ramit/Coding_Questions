@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class TowerHanoi1_2 {
+public class TowerHanoi1_3 {
 
   public static void main(String[] args) throws Exception {
     Scanner sc = new Scanner(System.in);
@@ -17,7 +17,7 @@ public class TowerHanoi1_2 {
     if (n == 0) return;
 
     toh(n - 1, t1, t3, t2);
-    System.out.println(n + "[" + t1 + " -> " + t2 + "]");
-    toh(n - 1, t3, t2, t1);
+    System.out.println(n + "[" + t1 + " -> " + t3 + "]");
+    toh(n - 1, t2, t1, t3);
   }
 }
