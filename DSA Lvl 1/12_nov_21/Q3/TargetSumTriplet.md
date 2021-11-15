@@ -1,0 +1,1 @@
+In this question we are given a target number for eg 20 and we have to find 3 numbers from the given array that give the sum 20 given that array has all unique number in Time Complexity n^2
