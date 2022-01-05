@@ -141,40 +141,7 @@ public class GenericTreeDemo {
 int[] arr={10,20,50,-1,60,-1,-1,30,70,-1,80,110,-1,120,-1,-1,90,-1,-1,40,100,-1,-1,-1};
 
 
-        // Node root = new Node(10);
-
-        // Node n1 = new Node(20);
-        // root.children.add(n1);
-
-        // Node n2 = new Node(30);
-        // root.children.add(n2);
-
-        // Node n3 = new Node(40);
-        // root.children.add(n3);
-
-        // Node n4 = new Node(50);
-        // n1.children.add(n4);
-
-        // Node n5 = new Node(60);
-        // n1.children.add(n5);
-
-        // Node n6 = new Node(70);
-        // n2.children.add(n6);
-
-        // Node n7 = new Node(80);
-        // n2.children.add(n7);
-
-        // Node n8 = new Node(90);
-        // n2.children.add(n8);
-
-        // Node n9 = new Node(100);
-        // n3.children.add(n9);
-
-        // Node n10 = new Node(110);
-        // n7.children.add(n10);
-
-        // Node n11 = new Node(120);
-        // n7.children.add(n11);
+       .add(n11);
         
 
         Node root = construct(arr);
@@ -185,6 +152,8 @@ int[] arr={10,20,50,-1,60,-1,-1,30,70,-1,80,110,-1,120,-1,-1,90,-1,-1,40,100,-1,
         ArrayList<Integer> list = new ArrayList<>();
         Syrialize(root, list);
         System.out.println(list);
+
+    
 
 
     }
