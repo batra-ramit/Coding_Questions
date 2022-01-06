@@ -2,159 +2,177 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Queue;
 import java.util.Stack;
+import javax.lang.model.util.ElementScanner6;
 
 public class GenericTreeDemo {
-    public static class Node {
-        int data;
-        ArrayList<Node> children = new ArrayList<>();
 
-        Node(int data) {
-            this.data = data;
+  public static class Node {
+
+    int data;
+    ArrayList<Node> children = new ArrayList<>();
+
+    Node(int data) {
+      this.data = data;
+    }
+  }
+
+  public static void LevelOrder(Node root) {
+    Queue<Node> queue = new ArrayDeque<>();
+    queue.add(root);
+
+    while (queue.size() > 0) {
+      Node temp = queue.remove();
+      System.out.print(temp.data + "  ");
+      for (Node val : temp.children) {
+        queue.add(val);
+      }
+    }
+    System.out.println(".");
+  }
+
+  public static void LevelOrderLineWise(Node node) {
+    Queue<Node> que = new ArrayDeque<>();
+    que.add(node);
+
+    while (que.size() != 0) {
+      int currsize = que.size();
+      while (currsize > 0) {
+        Node temp = que.remove();
+        System.out.print(temp.data + " ");
+        for (Node child : temp.children) {
+          que.add(child);
+        }
+        currsize--;
+      }
+      System.out.println();
+    }
+  }
+
+  public static void LevelOrderZigZag(Node root) {
+    Queue<Node> queue = new ArrayDeque<>();
+    Stack<Node> stack = new Stack<>();
+    int n = 0;
+    queue.add(root);
+    stack.push(root);
+    while (queue.size() != 0) {
+      int currsize = queue.size();
+
+      while (currsize > 0) {
+        if (n % 2 != 0) {
+          Node temp = queue.remove();
+          Node val = stack.pop();
+          System.out.print(val.data + " ");
+          for (Node child : temp.children) {
+            queue.add(child);
+          }
+        } else {
+          Node temp = queue.remove();
+          System.out.print(temp.data + " ");
+          for (Node child : temp.children) {
+            queue.add(child);
+            stack.push(child);
+          }
         }
 
+        currsize--;
+      }
+      System.out.println(n);
+      n++;
     }
-    
-    public static void LevelOrder(Node root) {
+  }
 
-        Queue<Node> queue = new ArrayDeque<>();
-        queue.add(root);
+  // public static void ZZ(Node node) {
 
-        while (queue.size() > 0) {
-            Node temp = queue.remove();
-            System.out.print(temp.data + "  ");
-            for (Node val : temp.children) {
-                queue.add(val);
-            }
-        }
-        System.out.println(".");
+  // Queue<Node> que = new ArrayDeque<>(); // addLast, removeFirst
+  // Stack<Node> st = new Stack<>();  // addFirst, removeFirst
 
-    }
+  // que.add(node);
+  // int level = 0;
+  // while(que.size() != 0){
+  //     int currSize = que.size();
+  //     while(currSize-->0){
+  //      Node rnode = que.remove();
+  //      System.out.print(rnode.data + " ");
+  //     if(level % 2 == 0){
+  //         for(int i = 0; i < rnode.children.size();i++)
+  //            st.push(rnode.children.get(i));
+  //     }else{
+  //         for(int i = rnode.children.size() - 1; i >= 0; i--)
+  //            st.add(rnode.children.get(i));
+  //     }
+  //     }
 
-    public static void LevelOrderLineWise(Node root) {
+  //     level++;
+  //     System.out.println();
+  //     Queue<Node> temp = que;
+  //     que = st;
+  //     st= temp;
+  // }
 
-        Queue<Node> parent = new ArrayDeque<>();
-        Queue<Node> child = new ArrayDeque<>();
+  // }
 
-        parent.add(root);
-        while (parent.size() > 0) {
-            Node temp = parent.remove();
-            System.out.println(temp.data + " ");
-
-            for (Node val : temp.children) {
-                child.add(val);
-
-            }
-
-            if (parent.size() == 0) {
-                parent = child;
-                child = new ArrayDeque<>();
-                System.out.println(".");
-            }
-        }
-
-    }
-    
-    public static void LevelOrderZigZag(Node root) {
-
-        Queue<Node> parent = new ArrayDeque<>();
-        Queue<Node> child = new ArrayDeque<>();
-        Stack<Node> bacha = new Stack<>();
-        parent.add(root);
-        int i = 1;
-        while (parent.size() > 0) {
-
-            Node temp = parent.remove();
-            System.out.println(temp.data + " ");
-            if (i % 2 == 0) {
-                System.out.println(i + "--1");
-                for (Node val : temp.children) {
-                    child.add(val);
-
-                }
-            } else {
-                for (Node val : temp.children) {
-                    bacha.push(val);
-                }
-            }
-
-            if (parent.size() == 0) {
-                System.out.println(i + "--2");
-                if (i % 2 == 0) {
-                    parent = child;
-                    child = new ArrayDeque<>();
-                    System.out.println(".");
-                } else {
-                    parent = new ArrayDeque<>();
-                    child = new ArrayDeque<>();
-                    while (bacha.size() > 0) {
-                        parent.add(bacha.pop());
-                    }
-                    bacha = new Stack<>();
-                    System.out.println(".");
-                }
-                System.out.println(i + "--3");
-                i++;
-                System.out.println(i + "--4");
-            }
-
-        }
-
-    }
-    
-    
-    public static Node construct(int arr[]) {
-        int i = 0;
-        Stack<Node> stack = new Stack<>();
-        while (i < arr.length - 1) {
-            if (arr[i] != -1) {
-                Node temp = new Node(arr[i]);
-                stack.push(temp);
-            } else {
-                Node child = stack.pop();
-                Node parent = stack.peek();
-                parent.children.add(child);
-            }
-            i++;
-        }
-
-        return stack.peek();
+  public static Node construct(int arr[]) {
+    int i = 0;
+    Stack<Node> stack = new Stack<>();
+    while (i < arr.length - 1) {
+      if (arr[i] != -1) {
+        Node temp = new Node(arr[i]);
+        stack.push(temp);
+      } else {
+        Node child = stack.pop();
+        Node parent = stack.peek();
+        parent.children.add(child);
+      }
+      i++;
     }
 
-    public static void Syrialize(Node Root, ArrayList<Integer> list) {
+    return stack.peek();
+  }
 
-        list.add(Root.data);
+  public static void Syrialize(Node Root, ArrayList<Integer> list) {
+    list.add(Root.data);
 
-        for (Node temp : Root.children) {
-           
-            Syrialize(temp, list);
-        }
-        list.add(-1);
-
-        
+    for (Node temp : Root.children) {
+      Syrialize(temp, list);
     }
+    list.add(-1);
+  }
 
-   
+  public static void main(String[] args) {
+    int[] arr = {
+      10,
+      20,
+      50,
+      -1,
+      60,
+      -1,
+      -1,
+      30,
+      70,
+      -1,
+      80,
+      110,
+      -1,
+      120,
+      -1,
+      -1,
+      90,
+      -1,
+      -1,
+      40,
+      100,
+      -1,
+      -1,
+      -1,
+    };
 
+    Node root = construct(arr);
+    LevelOrderLineWise(root);
+    System.out.println();
+    LevelOrderZigZag(root);
 
-    public static void main(String[] args) {
-        
-int[] arr={10,20,50,-1,60,-1,-1,30,70,-1,80,110,-1,120,-1,-1,90,-1,-1,40,100,-1,-1,-1};
-
-
-       .add(n11);
-        
-
-        Node root = construct(arr);
-
-
-        LevelOrderLineWise(root);
-
-        ArrayList<Integer> list = new ArrayList<>();
-        Syrialize(root, list);
-        System.out.println(list);
-
-    
-
-
-    }
+    ArrayList<Integer> list = new ArrayList<>();
+    Syrialize(root, list);
+    System.out.println(list);
+  }
 }
