@@ -81,36 +81,6 @@ public class GenericTreeDemo {
     }
   }
 
-  // public static void ZZ(Node node) {
-
-  // Queue<Node> que = new ArrayDeque<>(); // addLast, removeFirst
-  // Stack<Node> st = new Stack<>();  // addFirst, removeFirst
-
-  // que.add(node);
-  // int level = 0;
-  // while(que.size() != 0){
-  //     int currSize = que.size();
-  //     while(currSize-->0){
-  //      Node rnode = que.remove();
-  //      System.out.print(rnode.data + " ");
-  //     if(level % 2 == 0){
-  //         for(int i = 0; i < rnode.children.size();i++)
-  //            st.push(rnode.children.get(i));
-  //     }else{
-  //         for(int i = rnode.children.size() - 1; i >= 0; i--)
-  //            st.add(rnode.children.get(i));
-  //     }
-  //     }
-
-  //     level++;
-  //     System.out.println();
-  //     Queue<Node> temp = que;
-  //     que = st;
-  //     st= temp;
-  // }
-
-  // }
-
   public static Node construct(int arr[]) {
     int i = 0;
     Stack<Node> stack = new Stack<>();
@@ -138,6 +108,34 @@ public class GenericTreeDemo {
     list.add(-1);
   }
 
+  public static void removeLeaves(Node node) {
+    for (Node child : node.children) {
+      if (child.children.isEmpty() == true) {
+        int i = node.children.indexOf(child);
+        node.children.remove(i);
+    }
+    }
+    for (Node child : node.children) 
+    removeLeaves(child);
+  }
+
+
+  public static void linearize(Node node){
+    if(node.children.size()==0)
+      return;
+  
+  
+        Node child = node.children.get(0);
+        
+        for (int i = 1; i < node.children.size(); i++) {
+          Node temp = node.children.get(i);
+          child.children.add(temp);
+          node.children.remove(i);
+          i--;
+        }
+      
+        linearize(child);
+      }
   public static void main(String[] args) {
     int[] arr = {
       10,
@@ -169,8 +167,9 @@ public class GenericTreeDemo {
     Node root = construct(arr);
     LevelOrderLineWise(root);
     System.out.println();
-    LevelOrderZigZag(root);
-
+   linearize(root);
+   System.out.println();
+   LevelOrderLineWise(root);
     ArrayList<Integer> list = new ArrayList<>();
     Syrialize(root, list);
     System.out.println(list);
