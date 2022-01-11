@@ -126,15 +126,7 @@
       }
     
       public static void mirror(Node node){
-    //     Stack<Node> stack=new Stack<>();
-    //     Node Root=new Node();
-    //     Root.data=node.data;
-    // stack.add(node);
-    // while(stack.size()>0){
-    // Node temp=stack.pop();
-    // for(Node child:temp.children){
-    //     stack.push(child);
-    // }
+    
     
     for(Node child:node.children)
     mirror(child);
