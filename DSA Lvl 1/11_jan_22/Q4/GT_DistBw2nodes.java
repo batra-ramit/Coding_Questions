@@ -3,7 +3,7 @@
     import java.io.*;
     import java.util.*;
     
-    public class DistBw2nodes {
+    public class GT_DistBw2nodes {
     
       private static class Node {
         int data;
