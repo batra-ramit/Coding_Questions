@@ -2,7 +2,7 @@
     import java.io.*;
     import java.util.*;
     
-    public class NodeMaxSubtree {
+    public class GT_NodeMaxSubtree {
     
       private static class Node {
         int data;

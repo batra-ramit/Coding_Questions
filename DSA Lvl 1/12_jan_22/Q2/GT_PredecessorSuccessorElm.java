@@ -2,7 +2,7 @@
     import java.io.*;
     import java.util.*;
     
-    public class PredecessorSuccessorElm {
+    public class GT_PredecessorSuccessorElm {
     
       private static class Node {
         int data;
