@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class Recursion_PrintEncodings {
 
   public static void main(String[] args) throws Exception {
     Scanner sc = new Scanner(System.in);
@@ -19,8 +19,10 @@ public class Main {
     String temp = str.substring(0,1);
     String ros = str.substring(1);
     int n = Integer.parseInt(temp);
-    char ch = (char) ('a' +n -1);
-    // System.out.println(ch);
+    if(n==0)
+    return;
+    
+    char ch = (char)('a' +n -1);
     printEncodings(ros, asf + ch);
 
     if (str.length() > 1) {
