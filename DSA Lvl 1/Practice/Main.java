@@ -3,36 +3,56 @@ import java.util.*;
 
 public class Main {
 
-    public static void main(String[] args) {
-        Scanner scn = new Scanner(System.in);
-        int n = scn.nextInt();
-        int m = scn.nextInt();
-        int[][] arr = new int[n][m];
-        int [][]temp=new int[n][m];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                arr[i][j] = scn.nextInt();
+    public static void main(String[] args) throws Exception {
+      Scanner sc=new Scanner(System.in);
+      int n=sc.nextInt();
+      int row=sc.nextInt();
+      int col=sc.nextInt();
+      int arr[][]=new int[n][n];
+      printKnightsTour(arr,row,col,1);  
+    }
+
+    public static void printKnightsTour(int[][] chess, int r, int c, int upcomingMove) {
+        
+if(r<0 || c<0 || r>chess.length-1 || c> chess.length-1 || chess[r][c]!=0)
+return;
+
+if(upcomingMove==(chess.length-1)*(chess.length-1))
+{
+    chess[r][c]=upcomingMove;
+    displayBoard(chess);
+    chess[r][c]=0;
+    return;
+}
+
+
+chess[r][c]=upcomingMove;
+
+printKnightsTour(chess,r+2,c-1,upcomingMove+1);
+printKnightsTour(chess,r+2,c+1,upcomingMove+1);
+printKnightsTour(chess,r-2,c-1,upcomingMove+1);
+printKnightsTour(chess,r-2,c+1,upcomingMove+1);
+printKnightsTour(chess,r+1,c+2,upcomingMove+1);
+printKnightsTour(chess,r+1,c-2,upcomingMove+1);
+printKnightsTour(chess,r-1,c-2,upcomingMove+1);
+printKnightsTour(chess,r-1,c+2,upcomingMove+1);
+
+chess[r][c]=0;
+
+    }
+
+
+
+
+
+    public static void displayBoard(int[][] chess){
+        for(int i = 0; i < chess.length; i++){
+            for(int j = 0; j < chess[0].length; j++){
+                System.out.print(chess[i][j] + " ");
             }
+            System.out.println();
         }
 
-        floodfill(arr,temp, 0, 0,"");
-    }
-    
-   
-    public static void floodfill(int[][] maze,int[][] temp, int sr, int sc, String asf) {
-    
-    if(maze[sr][sc]==1 || temp[sr][sc]==1 || sr>maze.length-1 || sc>maze[0].length-1 || sr<0 || sc<0)
-    return;
-
-    if(sc==maze[0].length-1 && sr==maze.length-1)
-    {System.out.println(asf);
-    return;}
-
-temp[sr][sc]=1;
-floodfill(maze,temp,sr+1,sc,asf+"d");
-floodfill(maze,temp,sr-1,sc,asf+"t");
-floodfill(maze,temp,sr,sc+1,asf+"r");
-floodfill(maze,temp,sr,sc-1,asf+"l");
-temp[sr][sc]=0;
+        System.out.println();
     }
 }
