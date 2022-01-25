@@ -9,11 +9,7 @@ public class Main {
     Node left;
     Node right;
 
-    Node(int data, Node left, Node right) {
-      this.data = data;
-      this.left = left;
-      this.right = right;
-    }
+    
   }
 
   public static class Pair {
@@ -27,44 +23,18 @@ public class Main {
     }
   }
 
-  public static Node construct(Integer[] arr) {
-    Node root = new Node(arr[0], null, null);
-    Pair rtp = new Pair(root, 1);
+  public static Node construct(int[] arr, int l, int r) {
+    if(l>r)
+      return null;
 
-    Stack<Pair> st = new Stack<>();
-    st.push(rtp);
-
-    int idx = 0;
-    while (st.size() > 0) {
-      Pair top = st.peek();
-      if (top.state == 1) {
-        idx++;
-        if (arr[idx] != null) {
-          top.node.left = new Node(arr[idx], null, null);
-          Pair lp = new Pair(top.node.left, 1);
-          st.push(lp);
-        } else {
-          top.node.left = null;
-        }
-
-        top.state++;
-      } else if (top.state == 2) {
-        idx++;
-        if (arr[idx] != null) {
-          top.node.right = new Node(arr[idx], null, null);
-          Pair rp = new Pair(top.node.right, 1);
-          st.push(rp);
-        } else {
-          top.node.right = null;
-        }
-
-        top.state++;
-      } else {
-        st.pop();
-      }
-    }
-
-    return root;
+    int mid = (l + r) / 2;
+    Node node = new Node();
+    node.data = arr[mid];
+    node.left = construct(arr, l, mid - 1);
+    node.right = construct(arr, mid + 1, r);
+    
+    return node;
+   
   }
 
   public static void display(Node node) {
@@ -151,19 +121,9 @@ public class Main {
   }
 
   public static void main(String[] args) throws Exception {
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    int n = Integer.parseInt(br.readLine());
-    Integer[] arr = new Integer[n];
-    String[] values = br.readLine().split(" ");
-    for (int i = 0; i < n; i++) {
-      if (values[i].equals("n") == false) {
-        arr[i] = Integer.parseInt(values[i]);
-      } else {
-        arr[i] = null;
-      }
-    }
-
-    Node root = construct(arr);
-    isBSTLargest(root);
+   
+    int[]farr={12,25,37,50,62,75,87};
+    Node root = construct(farr,0,farr.length-1);
+    display(root);
   }
 }
