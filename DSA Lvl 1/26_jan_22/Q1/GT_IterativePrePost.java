@@ -2,7 +2,7 @@ package Q1;
 import java.io.*;
 import java.util.*;
 
-public class IterativePrePost {
+public class GT_IterativePrePost {
   private static class Node {
     int data;
     ArrayList<Node> children = new ArrayList<>();
