@@ -14,6 +14,17 @@ public class Main {
       }
    }
 
+   static class Pair{
+       int v;
+       int level;
+
+       Pair(int v,int level){
+           this.v=v;
+           this.level=level;
+
+       }
+   }
+
    public static void main(String[] args) throws Exception {
       BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -32,43 +43,52 @@ public class Main {
          graph[v1].add(new Edge(v1, v2, wt));
          graph[v2].add(new Edge(v2, v1, wt));
       }
+int[] visited=new int[vtces];
+Arrays.fill(visited,-1);
 
-      boolean[] visited=new boolean[vtces];
-
-      for(int i=0;i<graph.length;i++){
-         if(visited[i]==false){
-            boolean bool=IsCyclic(graph,visited,i);
-            if(bool==true)
-            {
-               System.out.println(true);
-               break;
-            }
+      for(int i=0;i<vtces;i++){
+         if(visited[i]==-1)
+       {boolean boool=IsGraphBipartite(graph,visited,i);
+         if(boool==false){
+             System.out.println(boool);
+             return;
          }
-
-      }
-      System.out.println(false);
+         
+         }
+         }
    }
-   public static boolean IsCyclic(ArrayList<Edge>[] graph,boolean[] visited,int src){
-Queue<Integer> queue=new ArrayDeque<>();
-queue.add(src);
+
+   public static boolean IsGraphBipartite(ArrayList<Edge>[] graph,int[] visited,int src){
+
+Queue<Pair> queue=new ArrayDeque<>();
+
+Pair pp=new Pair(src,0);
+
+queue.add(pp);
 
 while(queue.size()>0){
-    int vert=queue.remove();
-    if(visited[vert]==true)
-return true;
-else{
-   for(int i=0;i<graph[vert].size();i++){
-      Edge edge=graph[vert].get(i);
-      if(visited[edge.nbr]==false){
-         queue.add(edge.nbr);
-      }
-      else{
-         return true;
-      }
+
+Pair temp=queue.remove();
+int nsr=temp.v;
+if(visited[nsr]!=-1){
+if(temp.level!=visited[nsr])
+return false;
+   }else{
+visited[nsr]=temp.level;
+       for(int i=0;i<graph[nsr].size();i++){
+           Edge e=graph[nsr].get(i); 
+           if(visited[e.nbr]==-1){
+              Pair cp = new Pair(e.nbr, temp.level + 1);
+               queue.add(cp);
+           }
+       }
+       
+       }
    }
 
-}
-}
-return false;
+   return true;
    }
+
+
+   
 }
