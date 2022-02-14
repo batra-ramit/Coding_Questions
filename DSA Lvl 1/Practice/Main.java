@@ -38,7 +38,7 @@ public class Main {
 
       }
       st.push(i);
-    }
+    
 
     while (st.size() > 0) {
       int pidex=st.pop();
