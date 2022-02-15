@@ -1,49 +1,67 @@
 import java.io.*;
 import java.util.*;
 
-public class Main {
+public class Main{
+  
 
-  public static void display(int[] a) {
-    StringBuilder sb = new StringBuilder();
-
-    for (int val : a) {
-      sb.append(val + "\n");
-    }
-    System.out.println(sb);
-  }
-
-  public static void main(String[] args) throws Exception {
+public static void main(String[] args) throws Exception {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    String exp = br.readLine();
 
-    int n = Integer.parseInt(br.readLine());
-    int[] a = new int[n];
-    for (int i = 0; i < n; i++) {
-      a[i] = Integer.parseInt(br.readLine());
+Stack<Character> ostack=new Stack<>();
+Stack<Integer> vstack=new Stack<>();
+
+for(int i=0;i<exp.length();i++){
+    char ch=exp.charAt(i);
+
+    if(ch=='(')
+    ostack.push(ch);
+    else if(ch>='0' && ch<='9')
+    vstack.push(ch-'0');
+    else if(ch=='+' || ch=='-' || ch=='*' || ch=='/'){
+        while(ostack.size()>0 && ostack.peek()!='('&& precedence(ostack.peek())>=precedence(ch))
+        InfixEval(vstack,ostack);
+
+        ostack.push(ch);
     }
+    else if(ch==')'){
+        while(ostack.size()>0 && ostack.peek()!='(')
+        InfixEval(vstack,ostack);
 
-    int[] nge = solve(a);
-    display(nge);
-  }
-
-  public static int[] solve(int[] arr) {
-    Stack<Integer> st = new Stack<>();
-    int[] ans = new int[arr.length];
-
-    st.add(0);
-    
-    for (int i = 1; i < arr.length; i++) {
-      while (st.size() > 0 && arr[i] >= arr[st.peek()]) {
-        int pidex = st.pop();
-        ans[pidex] = arr[i];
-
-      }
-      st.push(i);
-    
-
-    while (st.size() > 0) {
-      int pidex=st.pop();
-      ans[pidex]=-1;
+        ostack.pop();
     }
-    return ans;
-  }
+}
+
+while(ostack.size()>0){
+    InfixEval(vstack,ostack);
+}
+System.out.println(vstack.peek());
+    
+ }
+
+ static int operation (int v1,int v2,char op){
+     if(op=='+')
+     return v1+v2;
+     else if(op=='/')
+     return v1/v2;
+     else if(op=='*')
+     return v1*v2;
+     else
+     return v1-v2;
+ }
+
+ static int precedence(char op){
+     if(op=='*' || op=='/')
+     return 2;
+     else
+     return 1;
+ }
+
+ static void InfixEval(Stack<Integer> vstack,Stack<Character> ostack){
+     char op=ostack.pop();
+     int v2=vstack.pop();
+     int v1=vstack.pop();
+     int ans=operation(v1,v2,op);
+     vstack.push(ans);
+ }
 }
