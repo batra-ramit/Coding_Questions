@@ -2,62 +2,51 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+  public static int calPoints(String[] ops) {
+    Stack<Integer> st=new Stack<>();
+    for (int i = 0; i < ops.length; i++) {
+      
+     
+      String str = ops[i];
+      char ch = str.charAt(0);
+      
+      if(ch=='C'){
+      st.pop(); 
+      }else if(ch=='D'){
+        int val=st.peek();
+        st.push(2 * val);
+      }else if(ch=='+'){
+        int a=st.pop();
+        int b=st.peek();
+        int c = a + b;
+        st.push(a);
+        st.push(c);
+      } else if (st.size() == 0) {
+        int num=ch-'0';
+        if (ch == '-')
+        num=Integer.parseInt(str);
+        st.push(num);
 
-    public static void main(String[] args) throws Exception {
-        Scanner sc=new Scanner(System.in);
-        int n=sc.nextInt();
-        int m=sc.nextInt();
-        int[][] arr=new int[n][m];
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                arr[i][j]=sc.nextInt();
-            }
-        }
-        int[][] ans = new int[n][m];
-        
-        for (int i = 0; i < ans.length; i++) {
-          ans[i][m - 1] = arr[i][m - 1];
-        }
-        GoldMine(arr, ans);
+      } else {
+        int num=ch-'0';
+        if (ch == '-')
+        num=Integer.parseInt(str);
+        st.push(st.peek() + num);
+      }
+     
+    }
+    int sum = 0;
+    while (st.size() > 0)
+      System.out.println(st.pop());
        
-       
-    }
+    return sum;
+  }
 
-    static int getMax(int x, int y, int[][] ans) {
-      int n = ans.length;
-      int m = ans[0].length;
-      int a = Integer.MIN_VALUE;
-      int b = Integer.MIN_VALUE;
-      int c = Integer.MIN_VALUE;
+  public static void main(String[] args) throws Exception {
+    BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
 
-      if (x - 1 >= 0 && x - 1 < n && y + 1 >= 0 && y + 1 < m) {
-        a = ans[x - 1][y + 1];
-      }
+    int result = calPoints(read.readLine().split(" "));
+    System.out.println(result);
 
-      if (y + 1 >= 0 && y + 1 < m) {
-        b = ans[x][y + 1];
-      }
-
-      if (x + 1 < ans.length && y + 1 >= 0 && y + 1 < m) {
-        c = ans[x + 1][y + 1];
-      }
-
-      return Math.max(a,Math.max(b, c));
-
-    }
-    
-    static void GoldMine(int[][] arr, int[][] ans) {
-
-      for (int i = arr[0].length - 2; i >= 0; i--) {
-        for (int j = 0; j < arr.length; j++)
-          ans[j][i] = arr[j][i]+getMax(j, i, ans);
-      }
-      int max=Integer.MIN_VALUE;
-      for(int i = 0;i<ans.length;i++)
-        max = ans[i][0] > max ? ans[i][0] : max;
-
-        System.out.println(max);
-    }
-    
-
+  }
 }
