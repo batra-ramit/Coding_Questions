@@ -21,25 +21,12 @@ public class Main {
         int c = a + b;
         st.push(a);
         st.push(c);
-      } else if (st.size() == 0) {
-        int num=ch-'0';
-        if (ch == '-')
-        num=Integer.parseInt(str);
+      }  else {
+        int num=Integer.parseInt(str);
         st.push(num);
-
-      } else {
-        int num=ch-'0';
-        if (ch == '-')
-        num=Integer.parseInt(str);
-        st.push(st.peek() + num);
       }
      
     }
-    int sum = 0;
-    while (st.size() > 0)
-      System.out.println(st.pop());
-       
-    return sum;
   }
 
   public static void main(String[] args) throws Exception {
