@@ -7,10 +7,10 @@ public class Main {
     int ans = 0;
     HashMap<Integer, Integer> map = new HashMap<>();
     for (int val : deck) {
-        if (map.containsKey(val))
-         map.put(val, map.get(val) + 1);
-        else
-         map.put(val,1);
+      if (map.containsKey(val)) map.put(val, map.get(val) + 1); else map.put(
+        val,
+        1
+      );
     }
 
     int gcd = 1;
@@ -32,6 +32,7 @@ public class Main {
     }
     return n2;
   }
+
   public static void main(String[] args) {
     Scanner sc = new Scanner(System.in);
     int n = sc.nextInt();
