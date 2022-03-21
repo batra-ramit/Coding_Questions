@@ -21,9 +21,6 @@ public class Main {
       }
     }
     int d = ss - smallest;
-    System.out.println(d);
-    System.out.println(smallest);
-    System.out.println(ss);
     for (int j = 0; j < arr.length; j++) {
       if (map.containsKey(smallest + (j * d))) {
         map.put(smallest + (j * d), map.get(smallest + (j * d)) - 1);
